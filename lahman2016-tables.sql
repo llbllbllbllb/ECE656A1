@@ -23,14 +23,20 @@ SET NAMES utf8mb4;
 -- ----------------------------
 DROP TABLE IF EXISTS `AllstarFull`;
 CREATE TABLE `AllstarFull` (
-  `playerID` varchar(255) DEFAULT NULL,
-  `yearID` int(11) DEFAULT NULL,
-  `gameNum` int(11) DEFAULT NULL,
+  `playerID` varchar(255) DEFAULT NOT NULL,
+  `yearID` int(11) DEFAULT NOT NULL,
+  `gameNum` int(11) DEFAULT NOT NULL,
   `gameID` varchar(255) DEFAULT NULL,
   `teamID` varchar(255) DEFAULT NULL,
   `lgID` varchar(255) DEFAULT NULL,
   `GP` int(11) DEFAULT NULL,
-  `startingPos` varchar(255) DEFAULT NULL
+  `startingPos` varchar(255) DEFAULT NULL,
+
+  PRIMARY KEY (`playerID`, `yearID`, `gameNum`),
+  FOREIGN KEY (`playerID`) references Master (`playerID`),
+  FOREIGN KEY (`teamID`,`yearID`) references Teams (`teamID`,`yearID`)
+
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -38,10 +44,10 @@ CREATE TABLE `AllstarFull` (
 -- ----------------------------
 DROP TABLE IF EXISTS `Appearances`;
 CREATE TABLE `Appearances` (
-  `yearID` int(11) DEFAULT NULL,
-  `teamID` varchar(255) DEFAULT NULL,
+  `yearID` int(11) DEFAULT NOT NULL,
+  `teamID` varchar(255) DEFAULT NOT NULL,
   `lgID` varchar(255) DEFAULT NULL,
-  `playerID` varchar(255) DEFAULT NULL,
+  `playerID` varchar(255) DEFAULT NOT NULL,
   `G_all` int(11) DEFAULT NULL,
   `GS` varchar(255) DEFAULT NULL,
   `G_batting` int(11) DEFAULT NULL,
@@ -58,7 +64,12 @@ CREATE TABLE `Appearances` (
   `G_of` int(11) DEFAULT NULL,
   `G_dh` varchar(255) DEFAULT NULL,
   `G_ph` varchar(255) DEFAULT NULL,
-  `G_pr` varchar(255) DEFAULT NULL
+  `G_pr` varchar(255) DEFAULT NULL,
+
+  PRIMARY KEY (`playerID`, `yearID`,`teamID`),
+  FOREIGN KEY (`playerID`) references Master (`playerID`),
+  FOREIGN KEY (`teamID`,`yearID`) references Teams (`teamID`,`yearID`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -66,12 +77,16 @@ CREATE TABLE `Appearances` (
 -- ----------------------------
 DROP TABLE IF EXISTS `AwardsManagers`;
 CREATE TABLE `AwardsManagers` (
-  `playerID` varchar(255) DEFAULT NULL,
-  `awardID` varchar(255) DEFAULT NULL,
-  `yearID` int(11) DEFAULT NULL,
+  `playerID` varchar(255) DEFAULT NOT NULL,
+  `awardID` varchar(255) DEFAULT NOT NULL,
+  `yearID` int(11) DEFAULT NOT NULL,
   `lgID` varchar(255) DEFAULT NULL,
   `tie` varchar(255) DEFAULT NULL,
-  `notes` varchar(255) DEFAULT NULL
+  `notes` varchar(255) DEFAULT NULL,
+
+  PRIMARY KEY (`playerID`, `awardID`, `yearID`),
+  FOREIGN KEY (`playerID`) references Master (`playerID`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -79,12 +94,17 @@ CREATE TABLE `AwardsManagers` (
 -- ----------------------------
 DROP TABLE IF EXISTS `AwardsPlayers`;
 CREATE TABLE `AwardsPlayers` (
-  `playerID` varchar(255) DEFAULT NULL,
-  `awardID` varchar(255) DEFAULT NULL,
-  `yearID` int(11) DEFAULT NULL,
-  `lgID` varchar(255) DEFAULT NULL,
+  `playerID` varchar(255) DEFAULT NOT NULL,
+  `awardID` varchar(255) DEFAULT NOT NULL,
+  `yearID` int(11) DEFAULT NOT NULL,
+  `lgID` varchar(255) DEFAULT NOT NULL,
   `tie` varchar(255) DEFAULT NULL,
-  `notes` varchar(255) DEFAULT NULL
+  `notes` varchar(255) DEFAULT NULL,
+
+  PRIMARY KEY (`playerID`, `awardID`, `yearID`, `lgID`),
+  FOREIGN KEY (`playerID`) references Master (`playerID`)
+
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -92,13 +112,17 @@ CREATE TABLE `AwardsPlayers` (
 -- ----------------------------
 DROP TABLE IF EXISTS `AwardsShareManagers`;
 CREATE TABLE `AwardsShareManagers` (
-  `awardID` varchar(255) DEFAULT NULL,
-  `yearID` int(11) DEFAULT NULL,
+  `awardID` varchar(255) DEFAULT NOT NULL,
+  `yearID` int(11) DEFAULT NOT NULL,
   `lgID` varchar(255) DEFAULT NULL,
-  `playerID` varchar(255) DEFAULT NULL,
+  `playerID` varchar(255) DEFAULT NOT NULL,
   `pointsWon` int(11) DEFAULT NULL,
   `pointsMax` int(11) DEFAULT NULL,
-  `votesFirst` int(11) DEFAULT NULL
+  `votesFirst` int(11) DEFAULT NULL,
+
+  PRIMARY KEY (`playerID`, `awardID`, `yearID`),
+  FOREIGN KEY (`playerID`) references Master (`playerID`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -106,13 +130,17 @@ CREATE TABLE `AwardsShareManagers` (
 -- ----------------------------
 DROP TABLE IF EXISTS `AwardsSharePlayers`;
 CREATE TABLE `AwardsSharePlayers` (
-  `awardID` varchar(255) DEFAULT NULL,
-  `yearID` int(11) DEFAULT NULL,
+  `awardID` varchar(255) DEFAULT NOT NULL,
+  `yearID` int(11) DEFAULT NOT NULL,
   `lgID` varchar(255) DEFAULT NULL,
-  `playerID` varchar(255) DEFAULT NULL,
+  `playerID` varchar(255) DEFAULT NOT NULL,
   `pointsWon` int(11) DEFAULT NULL,
   `pointsMax` int(11) DEFAULT NULL,
-  `votesFirst` int(11) DEFAULT NULL
+  `votesFirst` int(11) DEFAULT NULL,
+
+  PRIMARY KEY (`playerID`, `awardID`, `yearID`),
+  FOREIGN KEY (`playerID`) references Master (`playerID`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -120,9 +148,9 @@ CREATE TABLE `AwardsSharePlayers` (
 -- ----------------------------
 DROP TABLE IF EXISTS `Batting`;
 CREATE TABLE `Batting` (
-  `playerID` varchar(255) DEFAULT NULL,
-  `yearID` int(11) DEFAULT NULL,
-  `stint` int(11) DEFAULT NULL,
+  `playerID` varchar(255) DEFAULT NOT NULL,
+  `yearID` int(11) DEFAULT NOT NULL,
+  `stint` int(11) DEFAULT NOT NULL,
   `teamID` varchar(255) DEFAULT NULL,
   `lgID` varchar(255) DEFAULT NULL,
   `G` int(11) DEFAULT NULL,
@@ -141,7 +169,12 @@ CREATE TABLE `Batting` (
   `HBP` varchar(255) DEFAULT NULL,
   `SH` varchar(255) DEFAULT NULL,
   `SF` varchar(255) DEFAULT NULL,
-  `GIDP` varchar(255) DEFAULT NULL
+  `GIDP` varchar(255) DEFAULT NULL,
+
+  PRIMARY KEY (`playerID`, `yearID`, `stint`),
+  FOREIGN KEY (`playerID`) references Master (`playerID`),
+  FOREIGN KEY (`teamID`,`yearID`) references Teams (`teamID`,`yearID`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -149,9 +182,9 @@ CREATE TABLE `Batting` (
 -- ----------------------------
 DROP TABLE IF EXISTS `BattingPost`;
 CREATE TABLE `BattingPost` (
-  `yearID` int(11) DEFAULT NULL,
-  `round` varchar(255) DEFAULT NULL,
-  `playerID` varchar(255) DEFAULT NULL,
+  `yearID` int(11) DEFAULT NOT NULL,
+  `round` varchar(255) DEFAULT NOT NULL,
+  `playerID` varchar(255) DEFAULT NOT NULL,
   `teamID` varchar(255) DEFAULT NULL,
   `lgID` varchar(255) DEFAULT NULL,
   `G` int(11) DEFAULT NULL,
@@ -170,7 +203,12 @@ CREATE TABLE `BattingPost` (
   `HBP` varchar(255) DEFAULT NULL,
   `SH` varchar(255) DEFAULT NULL,
   `SF` varchar(255) DEFAULT NULL,
-  `GIDP` varchar(255) DEFAULT NULL
+  `GIDP` varchar(255) DEFAULT NULL,
+
+  PRIMARY KEY (`yearID`, `round`, `playerID`),
+  FOREIGN KEY (`playerID`) references Master (`playerID`),
+  FOREIGN KEY (`teamID`,`yearID`) references Teams (`teamID`,`yearID`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -178,9 +216,14 @@ CREATE TABLE `BattingPost` (
 -- ----------------------------
 DROP TABLE IF EXISTS `CollegePlaying`;
 CREATE TABLE `CollegePlaying` (
-  `playerID` varchar(255) DEFAULT NULL,
-  `schoolID` varchar(255) DEFAULT NULL,
-  `yearID` int(11) DEFAULT NULL
+  `playerID` varchar(255) DEFAULT NOT NULL,
+  `schoolID` varchar(255) DEFAULT NOT NULL,
+  `yearID` int(11) DEFAULT NOT NULL,
+
+  PRIMARY KEY (`playerID`, `schoolID`, `yearID`),
+  FOREIGN KEY (`playerID`) references Master (`playerID`),
+  FOREIGN KEY (`schoolID`) references Schools (`schoolID`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -188,12 +231,12 @@ CREATE TABLE `CollegePlaying` (
 -- ----------------------------
 DROP TABLE IF EXISTS `Fielding`;
 CREATE TABLE `Fielding` (
-  `playerID` varchar(255) DEFAULT NULL,
-  `yearID` int(11) DEFAULT NULL,
-  `stint` int(11) DEFAULT NULL,
+  `playerID` varchar(255) DEFAULT NOT NULL,
+  `yearID` int(11) DEFAULT NOT NULL,
+  `stint` int(11) DEFAULT NOT NULL,
   `teamID` varchar(255) DEFAULT NULL,
   `lgID` varchar(255) DEFAULT NULL,
-  `POS` varchar(255) DEFAULT NULL,
+  `POS` varchar(255) DEFAULT NOT NULL,
   `G` int(11) DEFAULT NULL,
   `GS` varchar(255) DEFAULT NULL,
   `InnOuts` varchar(255) DEFAULT NULL,
@@ -205,7 +248,12 @@ CREATE TABLE `Fielding` (
   `WP` varchar(255) DEFAULT NULL,
   `SB` varchar(255) DEFAULT NULL,
   `CS` varchar(255) DEFAULT NULL,
-  `ZR` varchar(255) DEFAULT NULL
+  `ZR` varchar(255) DEFAULT NULL,
+
+  PRIMARY KEY (`playerID`, `yearID`, `stint`,`POS`),
+  FOREIGN KEY (`playerID`) references Master (`playerID`),
+  FOREIGN KEY (`teamID`,`yearID`) references Teams (`teamID`,`yearID`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -213,12 +261,16 @@ CREATE TABLE `Fielding` (
 -- ----------------------------
 DROP TABLE IF EXISTS `FieldingOF`;
 CREATE TABLE `FieldingOF` (
-  `playerID` varchar(255) DEFAULT NULL,
-  `yearID` int(11) DEFAULT NULL,
-  `stint` int(11) DEFAULT NULL,
+  `playerID` varchar(255) DEFAULT NOT NULL,
+  `yearID` int(11) DEFAULT NOT NULL,
+  `stint` int(11) DEFAULT NOT NULL,
   `Glf` int(11) DEFAULT NULL,
   `Gcf` int(11) DEFAULT NULL,
-  `Grf` int(11) DEFAULT NULL
+  `Grf` int(11) DEFAULT NULL,
+
+  PRIMARY KEY (`playerID`, `yearID`, `stint`),
+  FOREIGN KEY (`playerID`) references Master (`playerID`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -226,12 +278,12 @@ CREATE TABLE `FieldingOF` (
 -- ----------------------------
 DROP TABLE IF EXISTS `FieldingOFsplit`;
 CREATE TABLE `FieldingOFsplit` (
-  `playerID` varchar(255) DEFAULT NULL,
-  `yearID` int(11) DEFAULT NULL,
-  `stint` int(11) DEFAULT NULL,
+  `playerID` varchar(255) DEFAULT NOT NULL,
+  `yearID` int(11) DEFAULT NOT NULL,
+  `stint` int(11) DEFAULT NOT NULL,
   `teamID` varchar(255) DEFAULT NULL,
   `lgID` varchar(255) DEFAULT NULL,
-  `POS` varchar(255) DEFAULT NULL,
+  `POS` varchar(255) DEFAULT NOT NULL,
   `G` int(11) DEFAULT NULL,
   `GS` int(11) DEFAULT NULL,
   `InnOuts` int(11) DEFAULT NULL,
@@ -243,7 +295,13 @@ CREATE TABLE `FieldingOFsplit` (
   `WP` varchar(255) DEFAULT NULL,
   `SB` varchar(255) DEFAULT NULL,
   `CS` varchar(255) DEFAULT NULL,
-  `ZR` varchar(255) DEFAULT NULL
+  `ZR` varchar(255) DEFAULT NULL,
+
+  PRIMARY KEY (`playerID`, `yearID`, `stint`,`POS`),
+  FOREIGN KEY (`playerID`) references Master (`playerID`),
+  FOREIGN KEY (`teamID`,`yearID`) references Teams (`teamID`,`yearID`)
+
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -251,12 +309,12 @@ CREATE TABLE `FieldingOFsplit` (
 -- ----------------------------
 DROP TABLE IF EXISTS `FieldingPost`;
 CREATE TABLE `FieldingPost` (
-  `playerID` varchar(255) DEFAULT NULL,
-  `yearID` int(11) DEFAULT NULL,
+  `playerID` varchar(255) DEFAULT NOT NULL,
+  `yearID` int(11) DEFAULT NOT NULL,
   `teamID` varchar(255) DEFAULT NULL,
   `lgID` varchar(255) DEFAULT NULL,
-  `round` varchar(255) DEFAULT NULL,
-  `POS` varchar(255) DEFAULT NULL,
+  `round` varchar(255) DEFAULT NOT NULL,
+  `POS` varchar(255) DEFAULT NOT NULL,
   `G` int(11) DEFAULT NULL,
   `GS` int(11) DEFAULT NULL,
   `InnOuts` int(11) DEFAULT NULL,
@@ -267,7 +325,12 @@ CREATE TABLE `FieldingPost` (
   `TP` int(11) DEFAULT NULL,
   `PB` varchar(255) DEFAULT NULL,
   `SB` varchar(255) DEFAULT NULL,
-  `CS` varchar(255) DEFAULT NULL
+  `CS` varchar(255) DEFAULT NULL,
+
+  PRIMARY KEY (`playerID`, `yearID`, `round`,`POS`),
+  FOREIGN KEY (`playerID`) references Master (`playerID`),
+  FOREIGN KEY (`teamID`,`yearID`) references Teams (`teamID`,`yearID`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -275,15 +338,19 @@ CREATE TABLE `FieldingPost` (
 -- ----------------------------
 DROP TABLE IF EXISTS `HallOfFame`;
 CREATE TABLE `HallOfFame` (
-  `playerID` varchar(255) DEFAULT NULL,
-  `yearid` int(11) DEFAULT NULL,
-  `votedBy` varchar(255) DEFAULT NULL,
+  `playerID` varchar(255) DEFAULT NOT NULL,
+  `yearid` int(11) DEFAULT NOT NULL,
+  `votedBy` varchar(255) DEFAULT NOT NULL,
   `ballots` int(11) DEFAULT NULL,
   `needed` int(11) DEFAULT NULL,
   `votes` int(11) DEFAULT NULL,
   `inducted` varchar(255) DEFAULT NULL,
   `category` varchar(255) DEFAULT NULL,
-  `needed_note` varchar(255) DEFAULT NULL
+  `needed_note` varchar(255) DEFAULT NULL,
+
+  PRIMARY KEY (`playerID`, `yearid`, `votedBy`),
+  FOREIGN KEY (`playerID`) references Master (`playerID`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -291,15 +358,22 @@ CREATE TABLE `HallOfFame` (
 -- ----------------------------
 DROP TABLE IF EXISTS `HomeGames`;
 CREATE TABLE `HomeGames` (
-  `year.key` int(11) DEFAULT NULL,
+  `year.key` int(11) DEFAULT NOT NULL,
   `league.key` varchar(255) DEFAULT NULL,
-  `team.key` varchar(255) DEFAULT NULL,
-  `park.key` varchar(255) DEFAULT NULL,
+  `team.key` varchar(255) DEFAULT NOT NULL,
+  `park.key` varchar(255) DEFAULT NOT NULL,
   `span.first` varchar(255) DEFAULT NULL,
   `span.last` varchar(255) DEFAULT NULL,
   `games` int(11) DEFAULT NULL,
   `openings` int(11) DEFAULT NULL,
-  `attendance` int(11) DEFAULT NULL
+  `attendance` int(11) DEFAULT NULL,
+
+  PRIMARY KEY (`year.key`,`team.key`,`park.key`),
+  FOREIGN KEY (`park.key`) references Parks (`park.key`),
+  FOREIGN KEY (`team.key`,`year.key`) references Teams (`teamID`,`yearID`)
+
+
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -308,15 +382,20 @@ CREATE TABLE `HomeGames` (
 DROP TABLE IF EXISTS `Managers`;
 CREATE TABLE `Managers` (
   `playerID` varchar(255) DEFAULT NULL,
-  `yearID` int(11) DEFAULT NULL,
-  `teamID` varchar(255) DEFAULT NULL,
+  `yearID` int(11) DEFAULT NOT NULL,
+  `teamID` varchar(255) DEFAULT NOT NULL,
   `lgID` varchar(255) DEFAULT NULL,
-  `inseason` int(11) DEFAULT NULL,
+  `inseason` int(11) DEFAULT NOT NULL,
   `G` int(11) DEFAULT NULL,
   `W` int(11) DEFAULT NULL,
   `L` int(11) DEFAULT NULL,
   `rank` int(11) DEFAULT NULL,
-  `plyrMgr` varchar(255) DEFAULT NULL
+  `plyrMgr` varchar(255) DEFAULT NULL,
+
+  PRIMARY KEY (`teamID`,`yearID`,`inseason`),
+  FOREIGN KEY (`playerID`) references Master (`playerID`),
+  FOREIGN KEY (`teamID`,`yearID`) references Teams (`teamID`,`yearID`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -325,16 +404,21 @@ CREATE TABLE `Managers` (
 -- ----------------------------
 DROP TABLE IF EXISTS `ManagersHalf`;
 CREATE TABLE `ManagersHalf` (
-  `playerID` varchar(255) DEFAULT NULL,
-  `yearID` int(11) DEFAULT NULL,
+  `playerID` varchar(255) DEFAULT NOT NULL,
+  `yearID` int(11) DEFAULT NOT NULL,
   `teamID` varchar(255) DEFAULT NULL,
   `lgID` varchar(255) DEFAULT NULL,
   `inseason` int(11) DEFAULT NULL,
-  `half` int(11) DEFAULT NULL,
+  `half` int(11) DEFAULT NOT NULL,
   `G` int(11) DEFAULT NULL,
   `W` int(11) DEFAULT NULL,
   `L` int(11) DEFAULT NULL,
-  `rank` int(11) DEFAULT NULL
+  `rank` int(11) DEFAULT NULL,
+
+  PRIMARY KEY (`playerID`,`yearID`,`half`),
+  FOREIGN KEY (`playerID`) references Master (`playerID`),
+  FOREIGN KEY (`teamID`,`yearID`) references Teams (`teamID`,`yearID`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -342,7 +426,7 @@ CREATE TABLE `ManagersHalf` (
 -- ----------------------------
 DROP TABLE IF EXISTS `Master`;
 CREATE TABLE `Master` (
-  `playerID` varchar(255) DEFAULT NULL,
+  `playerID` varchar(255) DEFAULT NOT NULL,
   `birthYear` int(11) DEFAULT NULL,
   `birthMonth` int(11) DEFAULT NULL,
   `birthDay` int(11) DEFAULT NULL,
@@ -365,7 +449,10 @@ CREATE TABLE `Master` (
   `debut` varchar(255) DEFAULT NULL,
   `finalGame` varchar(255) DEFAULT NULL,
   `retroID` varchar(255) DEFAULT NULL,
-  `bbrefID` varchar(255) DEFAULT NULL
+  `bbrefID` varchar(255) DEFAULT NULL,
+
+    PRIMARY KEY (`playerID`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -373,12 +460,16 @@ CREATE TABLE `Master` (
 -- ----------------------------
 DROP TABLE IF EXISTS `Parks`;
 CREATE TABLE `Parks` (
-  `park.key` varchar(255) DEFAULT NULL,
+  `park.key` varchar(255) DEFAULT NOT NULL,
   `park.name` varchar(255) DEFAULT NULL,
   `park.alias` varchar(255) DEFAULT NULL,
   `city` varchar(255) DEFAULT NULL,
   `state` varchar(255) DEFAULT NULL,
-  `country` varchar(255) DEFAULT NULL
+  `country` varchar(255) DEFAULT NULL,
+
+  PRIMARY KEY (`park.key`)
+
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -386,9 +477,9 @@ CREATE TABLE `Parks` (
 -- ----------------------------
 DROP TABLE IF EXISTS `Pitching`;
 CREATE TABLE `Pitching` (
-  `playerID` varchar(255) DEFAULT NULL,
-  `yearID` int(11) DEFAULT NULL,
-  `stint` int(11) DEFAULT NULL,
+  `playerID` varchar(255) DEFAULT NOT NULL,
+  `yearID` int(11) DEFAULT NOT NULL,
+  `stint` int(11) DEFAULT NOT NULL,
   `teamID` varchar(255) DEFAULT NULL,
   `lgID` varchar(255) DEFAULT NULL,
   `W` int(11) DEFAULT NULL,
@@ -415,7 +506,12 @@ CREATE TABLE `Pitching` (
   `R` int(11) DEFAULT NULL,
   `SH` varchar(255) DEFAULT NULL,
   `SF` varchar(255) DEFAULT NULL,
-  `GIDP` varchar(255) DEFAULT NULL
+  `GIDP` varchar(255) DEFAULT NULL,
+
+  PRIMARY KEY (`playerID`, `yearID`, `stint`),
+  FOREIGN KEY (`playerID`) references Master (`playerID`),
+  FOREIGN KEY (`teamID`,`yearID`) references Teams (`teamID`,`yearID`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -423,9 +519,9 @@ CREATE TABLE `Pitching` (
 -- ----------------------------
 DROP TABLE IF EXISTS `PitchingPost`;
 CREATE TABLE `PitchingPost` (
-  `playerID` varchar(255) DEFAULT NULL,
-  `yearID` int(11) DEFAULT NULL,
-  `round` varchar(255) DEFAULT NULL,
+  `playerID` varchar(255) DEFAULT NOT NULL,
+  `yearID` int(11) DEFAULT NOT NULL,
+  `round` varchar(255) DEFAULT NOT NULL,
   `teamID` varchar(255) DEFAULT NULL,
   `lgID` varchar(255) DEFAULT NULL,
   `W` int(11) DEFAULT NULL,
@@ -452,7 +548,12 @@ CREATE TABLE `PitchingPost` (
   `R` int(11) DEFAULT NULL,
   `SH` int(11) DEFAULT NULL,
   `SF` int(11) DEFAULT NULL,
-  `GIDP` int(11) DEFAULT NULL
+  `GIDP` int(11) DEFAULT NULL,
+
+  PRIMARY KEY (`yearID`, `round`, `playerID`),
+  FOREIGN KEY (`playerID`) references Master (`playerID`),
+  FOREIGN KEY (`teamID`,`yearID`) references Teams (`teamID`,`yearID`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -460,11 +561,16 @@ CREATE TABLE `PitchingPost` (
 -- ----------------------------
 DROP TABLE IF EXISTS `Salaries`;
 CREATE TABLE `Salaries` (
-  `yearID` int(11) DEFAULT NULL,
-  `teamID` varchar(255) DEFAULT NULL,
+  `yearID` int(11) DEFAULT NOT NULL,
+  `teamID` varchar(255) DEFAULT NOT NULL,
   `lgID` varchar(255) DEFAULT NULL,
-  `playerID` varchar(255) DEFAULT NULL,
-  `salary` int(11) DEFAULT NULL
+  `playerID` varchar(255) DEFAULT NOT NULL,
+  `salary` int(11) DEFAULT NULL,
+
+  PRIMARY KEY (`playerID`, `yearID`, `teamID`),
+  FOREIGN KEY (`playerID`) references Master (`playerID`),
+  FOREIGN KEY (`teamID`,`yearID`) references Teams (`teamID`,`yearID`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -473,11 +579,14 @@ CREATE TABLE `Salaries` (
 -- ----------------------------
 DROP TABLE IF EXISTS `Schools`;
 CREATE TABLE `Schools` (
-  `schoolID` varchar(255) DEFAULT NULL,
+  `schoolID` varchar(255) DEFAULT NOT NULL,
   `name_full` varchar(255) DEFAULT NULL,
   `city` varchar(255) DEFAULT NULL,
   `state` varchar(255) DEFAULT NULL,
-  `country` varchar(255) DEFAULT NULL
+  `country` varchar(255) DEFAULT NULL,
+
+  PRIMARY KEY (`schoolID`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -485,15 +594,21 @@ CREATE TABLE `Schools` (
 -- ----------------------------
 DROP TABLE IF EXISTS `SeriesPost`;
 CREATE TABLE `SeriesPost` (
-  `yearID` int(11) DEFAULT NULL,
-  `round` varchar(255) DEFAULT NULL,
+  `yearID` int(11) DEFAULT NOT NULL,
+  `round` varchar(255) DEFAULT NOT NULL,
   `teamIDwinner` varchar(255) DEFAULT NULL,
   `lgIDwinner` varchar(255) DEFAULT NULL,
   `teamIDloser` varchar(255) DEFAULT NULL,
   `lgIDloser` varchar(255) DEFAULT NULL,
   `wins` int(11) DEFAULT NULL,
   `losses` int(11) DEFAULT NULL,
-  `ties` int(11) DEFAULT NULL
+  `ties` int(11) DEFAULT NULL,
+
+  PRIMARY KEY (`yearID`,`round`),
+  FOREIGN KEY (`teamIDwinner`,`yearID`) references Teams (`teamIDwinner`,`yearID`),
+  FOREIGN KEY (`teamIDloser`,`yearID`) references Teams (`teamIDloser`,`yearID`),
+  -- this is Libang Liang works, 2020 Jan 17
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -501,9 +616,9 @@ CREATE TABLE `SeriesPost` (
 -- ----------------------------
 DROP TABLE IF EXISTS `Teams`;
 CREATE TABLE `Teams` (
-  `yearID` int(11) DEFAULT NULL,
-  `lgID` varchar(255) DEFAULT NULL,
-  `teamID` varchar(255) DEFAULT NULL,
+  `yearID` int(11) DEFAULT NOT NULL,
+  `lgID` varchar(255) DEFAULT NOT NULL,
+  `teamID` varchar(255) DEFAULT NOT NULL,
   `franchID` varchar(255) DEFAULT NULL,
   `divID` varchar(255) DEFAULT NULL,
   `Rank` int(11) DEFAULT NULL,
@@ -548,7 +663,11 @@ CREATE TABLE `Teams` (
   `PPF` int(11) DEFAULT NULL,
   `teamIDBR` varchar(255) DEFAULT NULL,
   `teamIDlahman45` varchar(255) DEFAULT NULL,
-  `teamIDretro` varchar(255) DEFAULT NULL
+  `teamIDretro` varchar(255) DEFAULT NULL,
+
+  PRIMARY KEY (`yearID`,`lgID`,`teamID`),
+  FOREIGN KEY (`franchID`) references TeamsFranchises (`franchID`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -556,10 +675,13 @@ CREATE TABLE `Teams` (
 -- ----------------------------
 DROP TABLE IF EXISTS `TeamsFranchises`;
 CREATE TABLE `TeamsFranchises` (
-  `franchID` varchar(255) DEFAULT NULL,
+  `franchID` varchar(255) DEFAULT NOT NULL,
   `franchName` varchar(255) DEFAULT NULL,
   `active` varchar(255) DEFAULT NULL,
-  `NAassoc` varchar(255) DEFAULT NULL
+  `NAassoc` varchar(255) DEFAULT NULL,
+
+  PRIMARY KEY (`franchID`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -567,15 +689,18 @@ CREATE TABLE `TeamsFranchises` (
 -- ----------------------------
 DROP TABLE IF EXISTS `TeamsHalf`;
 CREATE TABLE `TeamsHalf` (
-  `yearID` int(11) DEFAULT NULL,
+  `yearID` int(11) DEFAULT NOT NULL,
   `lgID` varchar(255) DEFAULT NULL,
-  `teamID` varchar(255) DEFAULT NULL,
-  `Half` int(11) DEFAULT NULL,
+  `teamID` varchar(255) DEFAULT NOT NULL,
+  `Half` int(11) DEFAULT NOT NULL,
   `divID` varchar(255) DEFAULT NULL,
   `DivWin` varchar(255) DEFAULT NULL,
   `Rank` int(11) DEFAULT NULL,
   `G` int(11) DEFAULT NULL,
   `W` int(11) DEFAULT NULL,
-  `L` decimal(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `L` decimal(11) DEFAULT NULL,
 
+  PRIMARY KEY (`teamID`,`yearID`,`Half`),
+  FOREIGN KEY (`teamID`,`yearID`) references Teams (`teamID`,`yearID`)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
