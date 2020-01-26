@@ -18,6 +18,9 @@
 
 SET NAMES utf8mb4;
 
+
+SET FOREIGN_KEY_CHECKS = 0;
+
 -- ----------------------------
 --  Table structure for `AllstarFull`
 -- ----------------------------
@@ -605,8 +608,8 @@ CREATE TABLE `SeriesPost` (
   `ties` int(11) DEFAULT NULL,
 
   PRIMARY KEY (`yearID`,`round`),
-  FOREIGN KEY (`teamIDwinner`,`yearID`) references Teams (`teamIDwinner`,`yearID`),
-  FOREIGN KEY (`teamIDloser`,`yearID`) references Teams (`teamIDloser`,`yearID`),
+  FOREIGN KEY (`teamIDwinner`,`yearID`) references Teams (`teamID`,`yearID`),
+  FOREIGN KEY (`teamIDloser`,`yearID`) references Teams (`teamID`,`yearID`),
   -- this is Libang Liang works, 2020 Jan 17
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -665,7 +668,7 @@ CREATE TABLE `Teams` (
   `teamIDlahman45` varchar(255) DEFAULT NULL,
   `teamIDretro` varchar(255) DEFAULT NULL,
 
-  PRIMARY KEY (`yearID`,`lgID`,`teamID`),
+  PRIMARY KEY (`teamID`,`yearID`,`lgID`),
   FOREIGN KEY (`franchID`) references TeamsFranchises (`franchID`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
